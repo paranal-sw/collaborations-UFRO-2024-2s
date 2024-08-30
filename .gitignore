@@ -1,0 +1,32 @@
+# Static files (collectstatic)
+static_root
+
+# Static files source (might store with LFS later)
+static
+
+# DB
+db.sqlite3
+
+# Virtual environment
+venv
+
+# Editor
+.idea
+
+# Compiled and others
+*__pycache__*
+*.egg-info*
+
+# process_secrets
+process_secrets/*.b64.txt
+
+# Data 
+*.ipynb_checkpoints*
+*.DS_Store*
+*.pyc
+.vscode
+.env
+
+data/*
+test_data/*/
+models/*/
