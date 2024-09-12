@@ -54,4 +54,11 @@ python -m ipykernel install --user --name=venv --display-name "Python (venv)"
 # Start Jupyter Notebooks (unless you have your own editor like VS Code)
 jupyter-notebook
 ```
+In some Mac environments you could see a blank Jupyter page, with some error logs in console. If that happens to you, just uninstall and reinstall again:
 
+```bash
+deactivate
+pip uninstall jupyterlab
+source venv/bin/activate
+pip install -r requirements.txt
+```

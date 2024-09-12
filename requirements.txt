@@ -1,4 +1,6 @@
 pandas
 numpy
 streamlit
+jupyterlab
+notebook
 ipykernel
