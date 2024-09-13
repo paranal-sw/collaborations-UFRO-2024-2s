@@ -2,4 +2,3 @@ pandas
 numpy
 streamlit
 ipykernel
-plotly_express
