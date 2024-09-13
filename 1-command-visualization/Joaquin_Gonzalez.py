@@ -11,7 +11,7 @@ The last section is left empty to be filled with the command visualization.
 """)
 
 st.title("Command Visualization Tool")
-st.write("Version: First example")
+st.write("Version: 2 Joaquin_Gonzalez")
 
 st.header("Observation List")
 col1, col2 = st.columns(2)
@@ -34,18 +34,6 @@ df_trace['timeout'] = df_trace['logtext'].str.contains('timeout', case=False, na
 # Mostrar los registros con la columna de timeout
 st.write(df_trace[['@timestamp', 'system', 'procid', 'logtext', 'timeout']])
 
-# Cargar y mostrar los comandos en el trazo específico basado en las selecciones del usuario
-st.header(f"Commands in trace {instrument}-{period}#{trace_id}", divider=True)
-df_trace_specific = load_trace(instrument, period, trace_id)
-df_trace_specific['timeout'] = df_trace_specific['logtext'].str.contains('timeout', case=False, na=False)
-st.write(df_trace_specific[['@timestamp', 'system', 'procid', 'logtext', 'timeout']])
-
-# Aplicar estilo para resaltar las filas con timeout
-def highlight_timeout(s):
-    return ['background-color: yellow' if v else '' for v in s]
-
-st.dataframe(df_trace_specific.style.apply(highlight_timeout, subset=['timeout'], axis=0))
-
 # Selectbox para seleccionar periodo, instrumento y trace ID
 st.header("Select Specific Trace")
 col3, col4, col5 = st.columns(3)
@@ -64,6 +52,6 @@ with col5:
 if specific_instrument and specific_period and specific_trace_id is not None:
     st.header(f"Commands in trace {specific_instrument}-{specific_period}#{specific_trace_id}", divider=True)
     df_trace_specific = load_trace(specific_instrument, specific_period, specific_trace_id)
-    df_trace_specific['timeout'] = df_trace_specific['logtext'].str.contains('timeout', case=False, na=False)
-    st.write(df_trace_specific[['@timestamp', 'system', 'procid', 'logtext', 'timeout']])
-    st.dataframe(df_trace_specific.style.apply(highlight_timeout, subset=['timeout'], axis=0))
+    
+    st.write(df_trace_specific[['@timestamp', 'system', 'procid', 'logtext']])
+   
