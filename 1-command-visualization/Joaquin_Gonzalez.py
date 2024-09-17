@@ -11,7 +11,7 @@ The last section is left empty to be filled with the command visualization.
 """)
 
 st.title("Command Visualization Tool")
-st.write("Version: 2 Joaquin_Gonzalez")
+st.write("Version: 2 version")
 
 st.header("Observation List")
 col1, col2 = st.columns(2)
@@ -34,6 +34,8 @@ df_trace['timeout'] = df_trace['logtext'].str.contains('timeout', case=False, na
 # Mostrar los registros con la columna de timeout
 st.write(df_trace[['@timestamp', 'system', 'procid', 'logtext', 'timeout']])
 
+
+
 # Selectbox para seleccionar periodo, instrumento y trace ID
 st.header("Select Specific Trace")
 col3, col4, col5 = st.columns(3)
@@ -54,4 +56,26 @@ if specific_instrument and specific_period and specific_trace_id is not None:
     df_trace_specific = load_trace(specific_instrument, specific_period, specific_trace_id)
     
     st.write(df_trace_specific[['@timestamp', 'system', 'procid', 'logtext']])
+
+# Cargar los datos de trazo específicos
+df_trace_specific = load_trace(specific_instrument, specific_period, specific_trace_id)
+
+# Filtrar y extraer comandos
+cmd = df_trace_specific[df_trace_specific['logtext'].str.contains("command")]['logtext']
+
+
+
+cmdlist = []
+for x in cmd:
+    splitted = x.split()
+    if "command" in splitted:
+        idx = splitted.index("command")
+        command = splitted[idx+1]
+        if command not in ["...", "done.", "to"]:
+            cmdlist.append(command)
+unique_cmds = set(cmdlist)
+
+# Mostrar los comandos en Streamlit
+st.header(f"Commands in trace {specific_instrument}-{specific_period}#{specific_trace_id}")
+st.write(unique_cmds)    
    
