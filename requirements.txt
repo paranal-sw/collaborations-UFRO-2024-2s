@@ -4,3 +4,5 @@ streamlit
 jupyterlab
 notebook
 ipykernel
+nltk
+scikit-learn
