@@ -1,0 +1,26 @@
+@startuml
+actor User
+participant System
+participant Instrument
+participant Subsystem
+
+User -> System: Send Command (command_name)
+activate System
+System -> Instrument: Forward Command (command_name)
+activate Instrument
+Instrument -> Subsystem: Execute Command (command_name)
+activate Subsystem
+
+alt Command Succeeds
+    Subsystem -> Instrument: Return Success (start_time, end_time)
+else Command Fails
+    Subsystem -> Instrument: Return Failure (start_time, end_time)
+end
+deactivate Subsystem
+
+Instrument -> System: Return Status (success/failure)
+deactivate Instrument
+
+System -> User: Return Status (success/failure)
+deactivate System
+@enduml

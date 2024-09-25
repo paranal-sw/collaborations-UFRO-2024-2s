@@ -1,0 +1,24 @@
+@startuml
+actor User
+participant System
+participant Instrument
+participant Subsystem
+
+User -> System: Send Command (bob_ins)
+activate System
+System -> Instrument: Forward Command (bob_ins)
+activate Instrument
+Instrument -> Subsystem: Execute Command (bob_ins)
+activate Subsystem
+
+Subsystem -> Instrument: Return Success (2019-04-02 10:18:42.266000, 2019-04-02 10:18:55.430000)
+deactivate Subsystem
+
+Instrument -> System: Return Status (success)
+deactivate Instrument
+
+System -> User: Return Status (success)
+deactivate System
+
+note right of System: Log Entry - PIONIER_gen_tec_setup -- Instrument setup (GRISM) (yellow)
+@enduml
