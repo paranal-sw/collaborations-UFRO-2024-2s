@@ -1,0 +1,12 @@
+Date: 09/26/24
+- Class Core():
+	- Agregado el atributo "self.dataset", se mantendrá el dataset almacenado en su totalidad (coste: 500 mb RAM para RANGE='1m').
+	- Modificado el método "load_trace()", utilizando el nuevo atributo dataset se aumenta la velocidad de carga de las trazas reduciendo
+	  el tiempo de tokenización.
+	- Agregado el método "meta_vectorization()" que aplica una vectorización a todas las trazas en meta_data. Guarda vector de palabras
+	  y de clasificación en la tabla de datos "self.meta_data" (Detalles en descripción del método).
+	- Agregado el método "transfer_matrix()" para convertir la vectorización de tokens en matrices de NumPy.
+
+- Custom_Pipeline():
+	- Estoy evaluando si crear un objeto para manejar los entrenamientos de manera automática.
+	- Esta clase debería guardar y ejecutar todo lo relacionado con entrenamiento de modelos.

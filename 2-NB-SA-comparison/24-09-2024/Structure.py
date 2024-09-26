@@ -1,22 +1,15 @@
-# PY
+import nltk
 import os 
 import re
-import numpy as np
+#import numpy as np
 #from collections import Counter
 import pandas as pd
 import time
 #import math
-
-# NLP
-import nltk
+#from sklearn.feature_extraction.text import TfidfVectorizer
 from urllib.request import urlretrieve
 from gensim.corpora import Dictionary
 #from gensim.models.word2vec import Word2Vec  # Para entrenar un nuevo modelo
-
-# ML
-from sklearn.feature_extraction.text import CountVectorizer
-#from sklearn.feature_extraction.text import TfidfVectorizer
-
 
 """
 Este avance propone una plantilla que debe desarrollarse por partes para la resolución del problema principal.
@@ -34,8 +27,6 @@ Sino que solo utilizar los métodos que se programarán en la estructura final.
 """ Funciones para descarga de datos
 """
 def load_dataset(INSTRUMENT, RANGE):
-    """ *DESCRIPTION REQUIRED*
-    """
     if 'COLAB_RELEASE_TAG' in os.environ.keys():
         #!mkdir -p data
         PATH='data/' # Convenient name to be Colab compatible
@@ -133,7 +124,7 @@ def load_meta(INSTRUMENT: str, RANGE: str) -> pd.DataFrame:
     return df_meta
 
 
-def preprocesador_texto(log) -> str:
+def preprocesador_texto(self, log) -> str:
         """Debo definir preprocesamiento de texto aún
 
         """
@@ -170,10 +161,6 @@ class Core():
         self.INSTRUMENT : str = INSTRUMENT
         self.RANGE :str = RANGE
         self.meta_data :pd.DataFrame = load_meta(INSTRUMENT=INSTRUMENT, RANGE=RANGE)
-
-        # Cargar el dataset completo es sacrificar RAM por velocidad en la carga de trazas
-        self.dataset: pd.DataFrame = load_dataset(INSTRUMENT=INSTRUMENT, RANGE=RANGE)
-
         self.trace_data : pd.DataFrame = None  # Se inicializará en None pero se considera que es un pd.DataFrame
         self.trace_index: int = 0
         self.time_it: bool = time_it
@@ -197,7 +184,6 @@ class Core():
     def load_trace(self, index: int, **kwargs):
         """Para un índice dado que pertenezca a "meta_data" se carga la traza asociada al evento.
         """
-
         timer = kwargs.get('timer', True)
         if self.time_it and timer: self.clock.begin()
         if index > len(self.meta_data):
@@ -205,8 +191,10 @@ class Core():
                              '\n Solicitado: ',index)
         self.trace_index = index
         try:
-            self.trace_data = self.dataset[self.dataset['trace_id']==index]
-            if self.time_it and timer: self.clock.stop(func=str(self.load_trace.__name__))
+            self.trace_data = load_trace(INSTRUMENT=self.INSTRUMENT,
+                                        RANGE=self.RANGE,
+                                        trace_id=self.trace_index)
+            if self.time_it and timer: self.clock.stop()
             pass
         except:
             raise ValueError('No se ha podido cargar la traza para el evento registrado')
@@ -223,25 +211,19 @@ class Core():
 
         custom_tokenizer = Custom_Tokenizer()  # Llamar al tokenizador y luego eliminarlo
         if setting == 'RegExp':
-            # kwargs: {
             regexp=kwargs.get('regexp',r'\b[a-zA-Z]+\b')
             gaps=kwargs.get('gaps',False)
-            # }
             custom_tokenizer.set_regexp_tokenizer(regexp=regexp,gaps=gaps)
-        elif setting == 'GenDict':  # Esto aún no está desarrollado
+        elif setting == 'GenDict':
             custom_tokenizer.set_gensim_tokenizer()
         result = self.trace_data[column].apply(lambda x: custom_tokenizer.c_tokenize(x))
 
-        if timer and self.time_it: self.clock.stop(func=self.trace_tokenization.__name__)
+        if timer and self.time_it: self.clock.stop()
         return result
     
 
     def meta_tokenization(self,**kwargs):
         """Tokenizar todas las trazas en meta_data y agregar en una lista.
-        Keyword args:
-            'setting' : define tokenizador (default: 'RegExp')
-            'regexp' : Expresión regular en caso de elegir setting= 'RegExp' (default: r"\b[a-zA-Z]+\b")
-            'gaps' : booleano que decide la omisión de espacios.
         """
         timer = kwargs.get('timer', True)
         if self.time_it and timer: 
@@ -250,14 +232,12 @@ class Core():
         trace_tokens_list = []
         for k in range(0, len(self.meta_data)):
             self.load_trace(index=k, timer=False)
-            ##### kwargs:{
             setting = kwargs.get('setting','RegExp')
             regexp=kwargs.get('regexp',r'\b[a-zA-Z]+\b')
             gaps = kwargs.get('gaps',False)
-            ##### } 
             trace_tokens_list.append(self.trace_tokenization(setting=setting, regexp=regexp, gaps=gaps, timer=False).tolist())
         self.meta_data['Trace_tokens'] = trace_tokens_list
-        if self.time_it and timer: self.clock.stop(func=self.meta_tokenization.__name__)
+        if self.time_it and timer: self.clock.stop()
         pass
 
     #def vectorize(self, column: str):
@@ -267,58 +247,7 @@ class Core():
         una dar un output para aplicar algún modelo de procesamiento de lenguaje.
         """
 
-    
-    def meta_vectorization(self,method: str = 'CountVectorizer',**kwargs) -> None:
-        """ Agregar columna con representación vectorial de cada sucesión de logs por registro.
-        
-        El vectorizador por ahora solo asocia cada registro a un vector (utilizando CountVectorizer), 
-        debo agregar modificaciones para asociar cada registro a una sucesión de vectores (matriz) 
-        lo que permitiría analizar los logs junto a una variable de tiempo, en lugar de solo el resultado 
-        final.
-
-        Debe agregarse una reducción de dimensión por PCA
-        Nota: Tal vez el dataset deba iniciarse aquí y eliminarse luego de ser utilizado.
-        
-        Params:
-            method (str): define el método de vectorización (por ahora solo hay un CountVectorizer).
-
-        Keyword args:
-            'stop_words' (list): Lista de stopwords en formato string. 
-
-        """
-
-        timer = kwargs.get('timer', True)
-        if timer and self.time_it: self.clock.begin()
-        
-        # Vector de clasificaciones
-        self.meta_data['Classification'] = self.meta_data['ERROR'].to_numpy().astype(int)
-
-        #self.meta_tokenization(timer=False)  # Tokenizar automáticamente antes de vectorizar ?
-        if method == 'CountVectorizer':
-            ##### kwargs: {
-            stop_words : list = kwargs.get('stop_words', [])
-            #####}
-
-            vectorizer = CountVectorizer(stop_words=stop_words)  # Si en algún punto resulta necesario convertir vector a texto habrá que extraer el corpus.
-            # Convertir cada sucesión de logs en una cadena de texto.
-            self.meta_data['Word_vector'] = self.meta_data['Trace_tokens'].apply(lambda token_list:' '.join([' '.join(tokens) for tokens in token_list]))
-            # Asignar un vector a cada sucesión.
-            vector_series = vectorizer.fit_transform(self.meta_data['Word_vector'])
-            vector_series = vector_series.toarray().tolist() # transformar a lista
-            self.meta_data['Word_vector'] = vector_series  # lista de vectores
-            if timer and self.time_it: self.clock.stop(self.meta_vectorization.__name__)
-        else:
-            pass
-    
-    
-    def transfer_matrix(self) -> tuple:
-        """ El método debe convertir todas las columnas vectoriales a numpy, por ahora dejaré
-        un "parche". Transfiere una columna de vectores a una matriz (debo probar con tensores de mayor orden).
-        """
-        X = self.meta_data['Word_vector']
-        X = np.stack(X.values)
-        y = self.meta_data['Classification'].to_numpy()
-        return X, y
+    #def train_test_split(self)
 
 
 class Custom_Tokenizer():
@@ -389,13 +318,6 @@ class Custom_Tokenizer():
     para ser compatibles."""
 
 
-class Custom_Pipeline():
-    """ Estructura para entrenar varios modelos con distintos parámetros
-    """
-    def __init__(self) -> None:
-        pass
-    
-
 class Clock():
     """Esto es solo un cronómetro para medir tiempos de ejecución.
     """
@@ -409,11 +331,11 @@ class Clock():
         self.tic = time.perf_counter()
         pass
 
-    def stop(self, func: str):
+    def stop(self):
         self.toc = time.perf_counter()
         if self.tic is None:
             return None
-        print(func," Execution time: ",self.toc - self.tic," Seconds")
+        print("Execution time: ",self.toc - self.tic," Seconds")
         self.tic = None
         self.toc = None
         pass
