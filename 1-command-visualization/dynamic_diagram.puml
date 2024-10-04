@@ -4,21 +4,94 @@ participant System
 participant Instrument
 participant Subsystem
 
-User -> System: Send Command (bob_ins)
+User -> System: Send Command CHKMOON
 activate System
-System -> Instrument: Forward Command (bob_ins)
+note right of System: procname changed to bob_ins (Start Time: 2019-04-02 01:30:13.397000, Duration: 0 days 00:00:00)
+System -> MATISSE: Forward Command (bob_ins)
+activate MATISSE
+MATISSE -> Instrument: Forward Command (bob_ins)
 activate Instrument
 Instrument -> Subsystem: Execute Command (bob_ins)
 activate Subsystem
 
-Subsystem -> Instrument: Return Success (2019-04-02 10:18:42.266000, 2019-04-02 10:18:55.430000)
+Subsystem -> Instrument: Return Success
 deactivate Subsystem
 
-Instrument -> System: Return Status (success)
+Instrument -> MATISSE: Return Status (success)
 deactivate Instrument
+
+MATISSE -> System: Return Status (success)
+deactivate MATISSE
+
+note right of System: procname changed to issifControl (Start Time: 2019-04-02 01:30:13.418000, Duration: 0 days 00:00:00)
+System -> ISS: Forward Command (issifControl)
+activate ISS
+ISS -> Instrument: Forward Command (issifControl)
+activate Instrument
+Instrument -> Subsystem: Execute Command (issifControl)
+activate Subsystem
+
+Subsystem -> Instrument: Return Success
+deactivate Subsystem
+
+Instrument -> ISS: Return Status (success)
+deactivate Instrument
+
+ISS -> System: Return Status (success)
+deactivate ISS
+
+note right of System: procname changed to bob_ins (Start Time: 2019-04-02 01:30:13.419000, Duration: 0 days 00:00:00)
+System -> MATISSE: Forward Command (bob_ins)
+activate MATISSE
+MATISSE -> Instrument: Forward Command (bob_ins)
+activate Instrument
+Instrument -> Subsystem: Execute Command (bob_ins)
+activate Subsystem
+
+Subsystem -> Instrument: Return Success
+deactivate Subsystem
+
+Instrument -> MATISSE: Return Status (success)
+deactivate Instrument
+
+MATISSE -> System: Return Status (success)
+deactivate MATISSE
+
+note right of System: procname changed to issifControl (Start Time: 2019-04-02 01:30:13.482000, Duration: 0 days 00:00:00)
+System -> ISS: Forward Command (issifControl)
+activate ISS
+ISS -> Instrument: Forward Command (issifControl)
+activate Instrument
+Instrument -> Subsystem: Execute Command (issifControl)
+activate Subsystem
+
+Subsystem -> Instrument: Return Success
+deactivate Subsystem
+
+Instrument -> ISS: Return Status (success)
+deactivate Instrument
+
+ISS -> System: Return Status (success)
+deactivate ISS
+
+note right of System: procname changed to bob_ins (Start Time: 2019-04-02 01:30:14.440000, Duration: 0 days 00:00:00)
+System -> MATISSE: Forward Command (bob_ins)
+activate MATISSE
+MATISSE -> Instrument: Forward Command (bob_ins)
+activate Instrument
+Instrument -> Subsystem: Execute Command (bob_ins)
+activate Subsystem
+
+Subsystem -> Instrument: Return Success
+deactivate Subsystem
+
+Instrument -> MATISSE: Return Status (success)
+deactivate Instrument
+
+MATISSE -> System: Return Status (success)
+deactivate MATISSE
 
 System -> User: Return Status (success)
 deactivate System
 
-note right of System: Log Entry - PIONIER_gen_tec_setup -- Instrument setup (GRISM) (yellow)
 @enduml
