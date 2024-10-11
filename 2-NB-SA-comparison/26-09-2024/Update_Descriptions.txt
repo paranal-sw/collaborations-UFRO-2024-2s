@@ -1,7 +1,0 @@
-- Class Core():
-	- Agregado el atributo "self.dataset", se mantendrá el dataset almacenado en su totalidad (coste: 500 mb RAM).
-	- Modificado el método "load_trace()", utilizando el nuevo atributo dataset se aumenta la velocidad de carga de las trazas reduciendo
-	  el tiempo de tokenización (0.37 segundos por traza a 0.01 segs en este sistema).
-	- Agregado el método "meta_vectorization()" que aplica una vectorización a todas las trazas en meta_data. Guarda vector de palabras
-	  y de clasificación en la tabla de datos "self.meta_data" (Detalles en descripción del método).
-	

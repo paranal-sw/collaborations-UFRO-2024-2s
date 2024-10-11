@@ -1,0 +1,26 @@
+Date: 10/10/24
+- Class Core():
+
+	- Actualizados comentarios en constructor, "load_meta", "load_trace", "trace_tokenization",
+	  "meta_tokenization", "meta_vectorization"
+	- Agregado método "transfer_matrix()", convierte columnas vectoriales a matrices NumPy.
+	- Agregado método "call_pipeline()", realiza los análisis de clasificación o análisis de sentimientos, 
+	  basados en el método especificado.
+
+- Class TextBlob_Classifier(): Un clasificador de sentimientos basado en la librería TextBlob
+			     con un sistema de umbral configurable (Detalles en Structure.py).
+
+	- Agregado método "classify_sentiment()", clasifica el sentimiento de un log basado en su polaridad.
+	- Agregado método "predict()", clasifica una traza de logs completa evaluando cada uno de sus elementos.
+
+- Class Custom_Pipeline(): Clase para estructurar y ejecutar el entrenamiento y 
+		   	   evaluación de múltiples modelos de clasificación.
+	
+	- Agregado método "Multinomial_Naive_Bayes", entrena y evalúa un modelo de clasificación MultinomialNB.
+	- Agregado método "TextBlob_Sentiment_Analysis", realiza un análisis de sentimiento usando el 
+  	  clasificador TextBlob y calcula métricas de evaluación.
+
+
+- Class Clock(): Actualizados comentarios en clase y métodos
+
+Creado primer main script (main.py)
