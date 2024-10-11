@@ -1,0 +1,79 @@
+@startuml
+actor User
+participant GRAVITY
+User -> GRAVITY: Send command CLRSTP  to process issifControl env. wvgvlti
+note right of User: 2019-04-02 02:26:47.918000
+note right of User: Send command CLRSTP  to process issifControl env. wvgvlti
+GRAVITY -> ISS: Send command CLRSTP  to process issifControl env. wvgvlti
+note right of GRAVITY: 2019-04-02 02:26:47.918000
+note right of GRAVITY: Send command CLRSTP  to process issifControl env. wvgvlti
+participant ISS
+ISS -> AT1: Waiting (timeout 40000) for pending replies to command CLRSTP id cmd46
+note right of ISS: 2019-04-02 02:26:47.921000
+note right of ISS: Waiting (timeout 40000) for pending replies to command CLRSTP id cmd46
+participant AT1
+note right of AT1: 2019-04-02 02:26:47.922000
+note right of AT1: CDP   : Received command: CLRSTP, Buffer:
+note right of AT1: atifControl
+AT1 -> AT2: PRESET: Received command: CLRSTP, Buffer:
+note right of AT1: 2019-04-02 02:26:47.922000
+note right of AT1: PRESET: Received command: CLRSTP, Buffer:
+participant AT2
+note right of AT2: 2019-04-02 02:26:47.924000
+note right of AT2: TIF   : Received command: CLRSTP, Buffer:
+note right of AT2: prsControl
+AT2 -> AT3: TIF   : Received command: CLRSTP, Buffer:
+note right of AT2: 2019-04-02 02:26:47.924000
+note right of AT2: TIF   : Received command: CLRSTP, Buffer:
+participant AT3
+AT3 -> AT4: PRESET: Received command: CLRSTP, Buffer:
+note right of AT3: 2019-04-02 02:26:47.925000
+note right of AT3: PRESET: Received command: CLRSTP, Buffer:
+participant AT4
+note right of AT4: 2019-04-02 02:26:47.926000
+note right of AT4: TIF   : Succesfully completed command: CLRSTP, Buffer: OK
+note right of AT4: prsControl
+AT4 -> AT3: TIF   : Received command: CLRSTP, Buffer:
+note right of AT4: 2019-04-02 02:26:47.926000
+note right of AT4: TIF   : Received command: CLRSTP, Buffer:
+note right of AT3: prsControl
+AT3 -> DL: TIF   : Received command: CLRSTP, Buffer:
+note right of AT3: 2019-04-02 02:26:47.926000
+note right of AT3: TIF   : Received command: CLRSTP, Buffer:
+participant DL
+DL -> ISS: PRESET: Received command: CLRSTP, Buffer:
+note right of DL: 2019-04-02 02:26:47.927000
+note right of DL: PRESET: Received command: CLRSTP, Buffer:
+note right of ISS: issprsControl
+ISS -> DL: PRESET: Received command: CLRSTP, Buffer:
+note right of ISS: 2019-04-02 02:26:47.927000
+note right of ISS: PRESET: Received command: CLRSTP, Buffer:
+note right of DL: dlprsControl
+DL -> GRAVITY: TIF   : Received command: CLRSTP, Buffer:
+note right of DL: 2019-04-02 02:26:47.927000
+note right of DL: TIF   : Received command: CLRSTP, Buffer:
+GRAVITY -> AT1: CONTROL: Received command: CLRSTP, Buffer:
+note right of GRAVITY: 2019-04-02 02:26:47.921000
+note right of GRAVITY: CONTROL: Received command: CLRSTP, Buffer:
+AT1 -> AT3: PRESET: Received command: CLRSTP, Buffer:
+note right of AT1: 2019-04-02 02:26:47.925000
+note right of AT1: PRESET: Received command: CLRSTP, Buffer:
+AT3 -> AT4: TIF   : Succesfully completed command: CLRSTP, Buffer: OK
+note right of AT3: 2019-04-02 02:26:47.929000
+note right of AT3: TIF   : Succesfully completed command: CLRSTP, Buffer: OK
+AT4 -> DL: TIF   : Succesfully completed command: CLRSTP, Buffer: OK
+note right of AT4: 2019-04-02 02:26:47.930000
+note right of AT4: TIF   : Succesfully completed command: CLRSTP, Buffer: OK
+DL -> AT2: TIF   : Succesfully completed command: CLRSTP, Buffer: OK
+note right of DL: 2019-04-02 02:26:47.931000
+note right of DL: TIF   : Succesfully completed command: CLRSTP, Buffer: OK
+AT2 -> ISS: PRESET: Command CLRSTP (NoMove) succesfully completed
+note right of AT2: 2019-04-02 02:26:47.995000
+note right of AT2: PRESET: Command CLRSTP (NoMove) succesfully completed
+ISS -> GRAVITY: CONTROL: Command CLRSTP (NoMove) succesfully completed
+note right of ISS: 2019-04-02 02:26:47.996000
+note right of ISS: CONTROL: Command CLRSTP (NoMove) succesfully completed
+GRAVITY -> User: TIF   : Succesfully completed command: CLRSTP, Buffer: OK
+note right of GRAVITY: 2019-04-02 02:26:48.924000
+note right of GRAVITY: TIF   : Succesfully completed command: CLRSTP, Buffer: OK
+@enduml

@@ -1,97 +1,53 @@
 @startuml
 actor User
-participant System
-participant Instrument
-participant Subsystem
-
-User -> System: Send Command CHKMOON
-activate System
-note right of System: procname changed to bob_ins (Start Time: 2019-04-02 01:30:13.397000, Duration: 0 days 00:00:00)
-System -> MATISSE: Forward Command (bob_ins)
-activate MATISSE
-MATISSE -> Instrument: Forward Command (bob_ins)
-activate Instrument
-Instrument -> Subsystem: Execute Command (bob_ins)
-activate Subsystem
-
-Subsystem -> Instrument: Return Success
-deactivate Subsystem
-
-Instrument -> MATISSE: Return Status (success)
-deactivate Instrument
-
-MATISSE -> System: Return Status (success)
-deactivate MATISSE
-
-note right of System: procname changed to issifControl (Start Time: 2019-04-02 01:30:13.418000, Duration: 0 days 00:00:00)
-System -> ISS: Forward Command (issifControl)
-activate ISS
-ISS -> Instrument: Forward Command (issifControl)
-activate Instrument
-Instrument -> Subsystem: Execute Command (issifControl)
-activate Subsystem
-
-Subsystem -> Instrument: Return Success
-deactivate Subsystem
-
-Instrument -> ISS: Return Status (success)
-deactivate Instrument
-
-ISS -> System: Return Status (success)
-deactivate ISS
-
-note right of System: procname changed to bob_ins (Start Time: 2019-04-02 01:30:13.419000, Duration: 0 days 00:00:00)
-System -> MATISSE: Forward Command (bob_ins)
-activate MATISSE
-MATISSE -> Instrument: Forward Command (bob_ins)
-activate Instrument
-Instrument -> Subsystem: Execute Command (bob_ins)
-activate Subsystem
-
-Subsystem -> Instrument: Return Success
-deactivate Subsystem
-
-Instrument -> MATISSE: Return Status (success)
-deactivate Instrument
-
-MATISSE -> System: Return Status (success)
-deactivate MATISSE
-
-note right of System: procname changed to issifControl (Start Time: 2019-04-02 01:30:13.482000, Duration: 0 days 00:00:00)
-System -> ISS: Forward Command (issifControl)
-activate ISS
-ISS -> Instrument: Forward Command (issifControl)
-activate Instrument
-Instrument -> Subsystem: Execute Command (issifControl)
-activate Subsystem
-
-Subsystem -> Instrument: Return Success
-deactivate Subsystem
-
-Instrument -> ISS: Return Status (success)
-deactivate Instrument
-
-ISS -> System: Return Status (success)
-deactivate ISS
-
-note right of System: procname changed to bob_ins (Start Time: 2019-04-02 01:30:14.440000, Duration: 0 days 00:00:00)
-System -> MATISSE: Forward Command (bob_ins)
-activate MATISSE
-MATISSE -> Instrument: Forward Command (bob_ins)
-activate Instrument
-Instrument -> Subsystem: Execute Command (bob_ins)
-activate Subsystem
-
-Subsystem -> Instrument: Return Success
-deactivate Subsystem
-
-Instrument -> MATISSE: Return Status (success)
-deactivate Instrument
-
-MATISSE -> System: Return Status (success)
-deactivate MATISSE
-
-System -> User: Return Status (success)
-deactivate System
-
+participant MATISSE
+User -> MATISSE: Send command SETPOF MATISSE,1,-0.727000,-66.593000 to process issifControl env. wvgvlti
+note right of User: 2019-04-02 01:30:14.472000
+note right of User: Send command SETPOF MATISSE,1,-0.727000,-66.593000 to process issifControl env. wvgvlti
+note right of MATISSE: 2019-04-02 01:30:14.472000
+note right of MATISSE: Send command SETPOF MATISSE,1,-0.727000,-66.593000 to process issifControl env. wvgvlti
+note right of MATISSE: 2019-04-02 01:30:15.483000
+note right of MATISSE: CDP   : Received command: SETPOF, Buffer: MATISSE,1,-0.727000,-66.593000
+note right of MATISSE: 2019-04-02 01:30:15.498000
+note right of MATISSE: Waiting (timeout 60000) for pending replies to command SETPOF id cmd0
+MATISSE -> ISS: CDP   : Succesfully completed command: SETPOF, Buffer: OK
+note right of MATISSE: 2019-04-02 01:30:16.506000
+note right of MATISSE: CDP   : Succesfully completed command: SETPOF, Buffer: OK
+participant ISS
+note right of ISS: 2019-04-02 01:30:14.477000
+note right of ISS: Last reply to command SETPOF id cmd0 received
+note right of ISS: 2019-04-02 01:30:15.485000
+note right of ISS: Send command SETPOF MATISSE,2,-24.100000,-19.163000 to process issifControl env. wvgvlti
+note right of ISS: 2019-04-02 01:30:15.499000
+note right of ISS: Waiting (timeout 60000) for pending replies to command SETPOF id cmd0
+ISS -> MATISSE: CDP   : Received command: SETPOF, Buffer: MATISSE,2,-24.100000,-19.163000
+note right of ISS: 2019-04-02 01:30:16.513000
+note right of ISS: CDP   : Received command: SETPOF, Buffer: MATISSE,2,-24.100000,-19.163000
+note right of MATISSE: 2019-04-02 01:30:14.478000
+note right of MATISSE: CDP   : Succesfully completed command: SETPOF, Buffer: OK
+note right of MATISSE: 2019-04-02 01:30:15.485000
+note right of MATISSE: Last reply to command SETPOF id cmd0 received
+note right of MATISSE: 2019-04-02 01:30:15.499000
+note right of MATISSE: Send command SETPOF MATISSE,3,51.852000,3.193000 to process issifControl env. wvgvlti
+MATISSE -> ISS: CDP   : Received command: SETPOF, Buffer: MATISSE,3,51.852000,3.193000
+note right of MATISSE: 2019-04-02 01:30:16.514000
+note right of MATISSE: CDP   : Received command: SETPOF, Buffer: MATISSE,3,51.852000,3.193000
+note right of ISS: 2019-04-02 01:30:14.482000
+note right of ISS: Waiting (timeout 60000) for pending replies to command SETPOF id cmd0
+note right of ISS: 2019-04-02 01:30:15.490000
+note right of ISS: CDP   : Succesfully completed command: SETPOF, Buffer: OK
+note right of ISS: 2019-04-02 01:30:15.503000
+note right of ISS: Last reply to command SETPOF id cmd0 received
+ISS -> MATISSE: Send command SETPOF MATISSE,4,-0.185000,-15.348000 to process issifControl env. wvgvlti
+note right of ISS: 2019-04-02 01:30:16.519000
+note right of ISS: Send command SETPOF MATISSE,4,-0.185000,-15.348000 to process issifControl env. wvgvlti
+note right of MATISSE: 2019-04-02 01:30:15.482000
+note right of MATISSE: CDP   : Received command: SETPOF, Buffer: MATISSE,4,-0.185000,-15.348000
+note right of MATISSE: 2019-04-02 01:30:15.494000
+note right of MATISSE: Waiting (timeout 60000) for pending replies to command SETPOF id cmd0
+note right of MATISSE: 2019-04-02 01:30:16.502000
+note right of MATISSE: CDP   : Succesfully completed command: SETPOF, Buffer: OK
+MATISSE -> User: Last reply to command SETPOF id cmd0 received
+note right of MATISSE: 2019-04-02 01:30:17.517000
+note right of MATISSE: Last reply to command SETPOF id cmd0 received
 @enduml

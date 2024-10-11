@@ -1,0 +1,16 @@
+@startuml
+actor User
+participant "MATISSE : bob_ins" as Matisse
+participant "ISS : issifControl" as ISS
+
+User -> Matisse: Send command CHKMOON
+Matisse -> ISS: CDP: Received command CHKMOON
+ISS -> ISS: Waiting (timeout 40000) for ...
+ISS -> Matisse: CDP: Successfully completed command CHKMOON
+Matisse -> User: Last reply to command CHKMOON
+
+note right of User: 2019-04-02 01:30:13.397
+note right of Matisse: 2019-04-02 01:30:13.418
+note right of ISS: 2019-04-02 01:30:13.419
+note right of User: 2019-04-02 01:30:13.482
+@enduml

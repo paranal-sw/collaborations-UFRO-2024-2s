@@ -1,0 +1,10 @@
+@startuml
+actor User
+participant PIONIER
+User -> PIONIER: STATUS -function INS.MODE (blue)
+note right of User: 2019-04-01 22:29:07.859000
+note right of User: STATUS -function INS.MODE (blue)
+PIONIER -> User: STATUS -function INS.MODE (blue)
+note right of PIONIER: 2019-04-01 22:29:07.859000
+note right of PIONIER: STATUS -function INS.MODE (blue)
+@enduml
