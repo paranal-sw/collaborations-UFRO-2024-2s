@@ -2,7 +2,7 @@ pandas
 numpy
 streamlit
 ipykernel
-conda-forge::plantuml
-anaconda::ipython
-anaconda::pillow
-conda-forge::diagrams
+plantuml
+ipython
+diagrams
+pillow
