@@ -1,0 +1,19 @@
+Date: 12-10-2024
+
+Esta es la versión que resultó del día de la presentación, se aplicaron algunas modificaciones adicionales.
+Aplicadas algunas optimizaciones en los procesos.
+
+- Class Core():
+	- Agregado método "sample_meta" para realizar muestreos de metadatos.
+	- Eliminados todas las referencias al argumento "sample_success".
+	- Agregado atributo "target_data" correspondiente a un DataFrame reducido para procesar.
+	- Las tokenizaciones, vectorizaciones y modelos ya no se aplicarán al meta_data completo
+	  sino que solo al atributo target_data.
+
+- Class Custom_Pipeline():
+	- Eliminadas las referencias a "sample_success".
+- Class Clock():
+	- Agregado historial de movimientos realizados con temporizador.
+
+
+Se ha agregado el notebook de ejemplo (Core_usage.ipynb) para mostrar el funcionamiento por pasos del Core.
